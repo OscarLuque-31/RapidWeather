@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rapid_weather/utils/app_colors.dart';
 
 class CustomTextField extends StatelessWidget {
   final double width; // Ancho del TextField
@@ -22,29 +23,29 @@ class CustomTextField extends StatelessWidget {
           fontFamily: 'ReadexPro',
           fontWeight: FontWeight.w500,
           fontSize: 14,
-          color: Color(0xFF090C37),
+          color: AppColors.azulOscuroWeather,
         ),
         decoration: InputDecoration(
           filled: true,
-          fillColor: const Color(0XFFEAEAEA),
+          fillColor: AppColors.blancoWeather,
           hintText: hintText,
           hintStyle: const TextStyle(
             fontFamily: 'ReadexPro',
             fontWeight: FontWeight.w500,
             fontSize: 14,
-            color: Color(0xFF090C37),
+            color: AppColors.azulOscuroWeather,
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.0),
             borderSide: const BorderSide(
-              color: Color(0xFF090C37),
+              color: AppColors.azulOscuroWeather,
               width: 2.0,
             ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.0),
             borderSide: const BorderSide(
-              color: Color(0xFF3478F6),
+              color: AppColors.azulClaroWeather,
               width: 2.0,
             ),
           ),

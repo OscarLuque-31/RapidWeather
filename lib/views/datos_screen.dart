@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rapid_weather/routes/routes.dart';
+import 'package:rapid_weather/utils/app_colors.dart';
 import 'package:rapid_weather/widgets/custom_date_picker_text_field.dart';
 import 'package:rapid_weather/widgets/custom_text_field.dart';
 
@@ -27,7 +28,7 @@ class DatosScreen extends StatelessWidget {
               fontFamily: 'ReadexPro',
               fontWeight: FontWeight.w700,
               fontSize: 25,
-              color: Color(0xFF4A90E2),
+              color: AppColors.azulClaroWeather,
             ),
           ),
           // Contenedor inferior con bordes redondeados
@@ -36,7 +37,7 @@ class DatosScreen extends StatelessWidget {
             width: 360,
             height: 385,
             decoration: BoxDecoration(
-              color: const Color(0xFF1C204B), // Fondo azul oscuro
+              color: AppColors.azulGrisaceoWeather, // Fondo azul oscuro
               borderRadius: BorderRadius.circular(16.0), // Bordes redondeados
             ),
             child: Column(
@@ -55,7 +56,7 @@ class DatosScreen extends StatelessWidget {
                     Navigator.pushNamed(context, AppRoutes.principal);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF090C37), 
+                    backgroundColor: AppColors.azulOscuroWeather, 
                     minimumSize: const Size(315, 55),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16.0),
@@ -67,7 +68,7 @@ class DatosScreen extends StatelessWidget {
                       fontFamily: 'ReadexPro',
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
-                      color: Color(0xFFFFFFFF),
+                      color: AppColors.blancoWeather,
                     ),
                   ),
                 ),

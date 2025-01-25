@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rapid_weather/utils/app_colors.dart';
 
 class CustomDatePickerTextField extends StatefulWidget {
   final double width; // Ancho del campo
@@ -49,29 +50,29 @@ class _CustomDatePickerTextFieldState extends State<CustomDatePickerTextField> {
             fontFamily: 'ReadexPro',
             fontWeight: FontWeight.w500,
             fontSize: 14,
-            color: Color(0xFF090C37),
+            color: AppColors.azulOscuroWeather,
           ),
           decoration: InputDecoration(
             filled: true,
-            fillColor: const Color(0xFFEAEAEA),
+            fillColor: AppColors.blancoWeather,
             hintText: _selectedDate ?? widget.hintText, // Muestra la fecha seleccionada o el placeholder
             hintStyle: const TextStyle(
               fontFamily: 'ReadexPro',
               fontWeight: FontWeight.w500,
               fontSize: 14,
-              color: Color(0xFF090C37),
+              color: AppColors.azulOscuroWeather,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16.0),
               borderSide: const BorderSide(
-                color: Color(0xFF090C37),
+                color: AppColors.azulOscuroWeather,
                 width: 2.0,
               ),
             ),
             disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16.0),
               borderSide: const BorderSide(
-                color: Color(0xFF090C37),
+                color: AppColors.azulOscuroWeather,
                 width: 2.0,
               ),
             ),
