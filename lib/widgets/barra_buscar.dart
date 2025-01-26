@@ -15,7 +15,7 @@ class _BarraBuscarState extends State<BarraBuscar> {
       height: 60,
       width: 350,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center, // Alinea el TextField verticalmente
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextField(
             decoration: InputDecoration(
@@ -38,15 +38,15 @@ class _BarraBuscarState extends State<BarraBuscar> {
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),
                 borderSide: const BorderSide(
-                  color: AppColors.azulGrisaceoWeather, // Color del borde.
+                  color: AppColors.azulGrisaceoWeather, 
                   width: 2,
                 ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),
                 borderSide: const BorderSide(
-                  color: AppColors.azulClaroWeather, // Color del borde.
-                  width: 2, // Ancho del borde al enfocar.
+                  color: AppColors.azulClaroWeather, 
+                  width: 2,
                 ),
               ),
             ),

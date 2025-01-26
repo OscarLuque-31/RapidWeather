@@ -20,7 +20,7 @@ class _CurrentWeatherBigWidget extends State<CurrentWeatherBigWidget> {
   
   @override
   Widget build(BuildContext context) {
-    //
+    // Widget que muestra el estado del clima y la temperatura actual
     return SizedBox(
       width: 200,
       child: Column(

@@ -21,11 +21,11 @@ class _LocalizacionWidgetState extends State<LocalizacionWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80, // Ajusta el alto para que se vea mejor centrado
+      height: 80, 
       width: 170,
       decoration: BoxDecoration(
         color: AppColors.azulGrisaceoWeather,
-        borderRadius: BorderRadius.circular(15), // Bordes redondeados
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -40,23 +40,23 @@ class _LocalizacionWidgetState extends State<LocalizacionWidget> {
                 style: const TextStyle(
                   fontFamily: 'ReadexPro',
                   fontWeight: FontWeight.w300,
-                  fontSize: 14, // Tamaño ligeramente más grande
+                  fontSize: 14,
                   color: AppColors.blancoWeather,
                 ),
               ),
-              const SizedBox(height: 5), // Menor espacio entre temperatura y ciudad
+              const SizedBox(height: 5), 
               Text(
                 widget.ciudad,
                 style: const TextStyle(
                   fontFamily: 'ReadexPro',
                   fontWeight: FontWeight.w500,
-                  fontSize: 14, // Tamaño de fuente igual que la temperatura
+                  fontSize: 14,
                   color: AppColors.azulClaroWeather,
                 ),
               ),
             ],
           ),
-          const SizedBox(width: 10), // Añadí un espacio entre la columna y la imagen
+          const SizedBox(width: 10),
           Image.asset(
             Utils.determinarClima(widget.estadoClima),
             width: 40,

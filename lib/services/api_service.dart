@@ -7,9 +7,10 @@ class ApiService {
 
   final String apiKey = "b32cc93ddc9a442cac3181506252001";
 
-  Future<Weather> fetchWeatherForOneDay(String ciudad) async {
+  // Método para obtener el clima de un día
+  Future<Weather> fetchWeatherForOneDay(String localizacion) async {
     final url = Uri.parse(
-        '$baseUrl/forecast.json?key=$apiKey&q=$ciudad&days=1&aqi=yes&alerts=yes&lang=es');
+        '$baseUrl/forecast.json?key=$apiKey&q=$localizacion&days=1&aqi=yes&alerts=yes&lang=es');
 
     try {
       final response = await http.get(url);

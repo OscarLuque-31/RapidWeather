@@ -13,7 +13,7 @@ class LocalizacionesFavoritas extends StatefulWidget {
 }
 
 class _LocalizacionesFavoritasState extends State<LocalizacionesFavoritas> {
-  List<Map<String, dynamic>> _favorites = [];
+  // List<Map<String, dynamic>> _favorites = [];
 
   @override
   void initState() {
@@ -22,18 +22,18 @@ class _LocalizacionesFavoritasState extends State<LocalizacionesFavoritas> {
   }
 
   Future<void> _loadFavorites() async {
-    final data = await DBHelper().fetchFavorites();
+    // final data = await DBHelper().fetchFavorites();
     setState(() {
-      _favorites = data;
+      // _favorites = data;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final limitedFavorites = _favorites.take(4).toList(); // Mostrar solo 4
+    // final limitedFavorites = _favorites.take(4).toList(); // Mostrar solo 4
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0), // Padding lateral
+      padding: const EdgeInsets.symmetric(horizontal: 20.0), 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

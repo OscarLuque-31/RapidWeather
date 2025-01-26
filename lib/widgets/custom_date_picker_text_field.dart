@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:rapid_weather/utils/app_colors.dart';
 
 class CustomDatePickerTextField extends StatefulWidget {
-  final double width; // Ancho del campo
-  final double height; // Alto del campo
-  final String hintText; // Placeholder inicial
+  final double width;
+  final double height; 
+  final String hintText; 
+  final Function(String)? onChanged;
 
   const CustomDatePickerTextField({
     super.key,
     required this.width,
     required this.height,
     required this.hintText,
+    this.onChanged, 
   });
 
   @override
@@ -34,6 +36,11 @@ class _CustomDatePickerTextFieldState extends State<CustomDatePickerTextField> {
       setState(() {
         _selectedDate = "${picked.day}/${picked.month}/${picked.year}";
       });
+
+      // Llama al callback si no es null
+      if (widget.onChanged != null) {
+        widget.onChanged!(_selectedDate!);
+      }
     }
   }
 

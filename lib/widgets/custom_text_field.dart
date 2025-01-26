@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:rapid_weather/utils/app_colors.dart';
 
 class CustomTextField extends StatelessWidget {
-  final double width; // Ancho del TextField
-  final double height; // Alto del TextField
-  final String hintText; // Texto del placeholder
+  final double width; 
+  final double height; 
+  final String hintText; 
+  final Function(String)? onChanged;
 
   const CustomTextField({
     super.key,
     required this.width,
     required this.height,
     required this.hintText,
+    this.onChanged, 
   });
 
   @override
@@ -19,6 +21,7 @@ class CustomTextField extends StatelessWidget {
       width: width,
       height: height,
       child: TextField(
+        onChanged: onChanged, // Llama al callback cuando el texto cambia
         style: const TextStyle(
           fontFamily: 'ReadexPro',
           fontWeight: FontWeight.w500,

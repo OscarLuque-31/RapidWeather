@@ -20,25 +20,23 @@ class _WeatherForHoursState extends State<WeatherForHours> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16.0),
-      height: 150.0, // Ajusta el alto del contenedor según lo que necesites
+      height: 150.0, 
       child: ListView.builder(
         scrollDirection:
-            Axis.horizontal, // Para hacer que el ListView sea horizontal
+            Axis.horizontal, 
         itemCount:
-            widget.weatherForHour.length, // Número de elementos en la lista
+            widget.weatherForHour.length, 
         itemBuilder: (context, index) {
           var weatherHour = widget.weatherForHour[index];
 
           return Padding(
             padding: const EdgeInsets.symmetric(
-                horizontal: 8.0), // Espaciado entre los items
+                horizontal: 8.0), 
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // la hora en formato "0", "1", "2", ..., "23"
-
                 SizedBox(
-                  width: 60.0, // Ajusté el tamaño para que sea más espacioso
+                  width: 60.0, 
                   height: 100.0,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
@@ -46,13 +44,12 @@ class _WeatherForHoursState extends State<WeatherForHours> {
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                     child: Center(
-                      // Asegura que el contenido esté centrado
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment
-                            .center, // Centra el contenido verticalmente
+                            .center, 
                         children: [
                           Text(
-                            '${weatherHour.temperatura.round()}°C', // Temperatura de la hora
+                            '${weatherHour.temperatura.round()}°C',
                             style: const TextStyle(
                               fontFamily: 'ReadexPro',
                               fontWeight: FontWeight.w300,
@@ -63,12 +60,12 @@ class _WeatherForHoursState extends State<WeatherForHours> {
                           const SizedBox(height: 4.0),
                           Image.asset(
                             Utils.determinarClima(
-                                weatherHour.estadoClima), // Icono de la hora
-                            width: 30.0, // Ajusté el tamaño del icono
+                                weatherHour.estadoClima), 
+                            width: 30.0, 
                           ),
                           const SizedBox(height: 4.0),
                           Text(
-                            '$index:00', // Usa el índice para generar la hora (0 a 23)
+                            '$index:00', 
                             style: const TextStyle(
                               fontFamily: 'ReadexPro',
                               fontWeight: FontWeight.w300,

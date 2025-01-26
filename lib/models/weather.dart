@@ -9,6 +9,7 @@ class Weather {
   final double temperaturaMaxima; // Temperatura máxima del día
   final String estadoClima; // Estado del clima
   final List<WeatherHour> horas; // Lista de WeatherHour (pronóstico por horas)
+  final String ciudad; // Nombre de la ciudad
 
   Weather({
     required this.temperatura,
@@ -19,34 +20,38 @@ class Weather {
     required this.temperaturaMaxima,
     required this.estadoClima,
     required this.horas,
+    required this.ciudad, 
   });
 
   // Método para crear una instancia de Weather a partir de un JSON
   factory Weather.fromJson(Map<String, dynamic> json) {
-  var current = json['current'] ?? {}; // Datos actuales
-  var forecast = json['forecast']?['forecastday']?[0] ?? {}; // Pronóstico del primer día
+    var current = json['current'] ?? {}; // Datos actuales
+    var forecast = json['forecast']?['forecastday']?[0] ?? {}; // Pronóstico del primer día
 
-  // Parsear las horas del día
-  List<WeatherHour> horas = (forecast['hour'] as List?)?.map((hourJson) {
-    return WeatherHour.fromJson(hourJson); // Crear WeatherHour por cada hora
-  }).toList() ?? [];
+    // Parsear las horas del día
+    List<WeatherHour> horas = (forecast['hour'] as List?)?.map((hourJson) {
+      return WeatherHour.fromJson(hourJson); // Crear WeatherHour por cada hora
+    }).toList() ?? [];
 
-  // Obtener el estado del clima de current si no está disponible en forecast
-  String estadoClima = forecast['condition']?['text'] ??
-                       current['condition']?['text'] ??
-                       'Desconocido'; // Si no se encuentra, será 'Desconocido'
+    // Obtener el estado del clima de current si no está disponible en forecast
+    String estadoClima = forecast['condition']?['text'] ??
+                         current['condition']?['text'] ??
+                         'Desconocido'; // Si no se encuentra, será 'Desconocido'
 
-  // Crear e inicializar Weather
-  return Weather(
-    temperatura: current['temp_c']?.toDouble() ?? 0.0,
-    velocidadViento: current['wind_kph']?.toDouble() ?? 0.0,
-    visibilidad: current['vis_km']?.toDouble() ?? 0.0,
-    uv: current['uv']?.toDouble() ?? 0.0,
-    temperaturaMinima: forecast['mintemp_c']?.toDouble() ?? 0.0,
-    temperaturaMaxima: forecast['maxtemp_c']?.toDouble() ?? 0.0,
-    estadoClima: estadoClima, // Usar el estado del clima extraído
-    horas: horas, // Lista de WeatherHour
-  );
-}
+    // Obtener la ciudad 
+    String ciudad = json['location']?['name'] ?? 'Desconocida'; 
 
+    // Crear e inicializar Weather
+    return Weather(
+      temperatura: current['temp_c']?.toDouble() ?? 0.0,
+      velocidadViento: current['wind_kph']?.toDouble() ?? 0.0,
+      visibilidad: current['vis_km']?.toDouble() ?? 0.0,
+      uv: current['uv']?.toDouble() ?? 0.0,
+      temperaturaMinima: forecast['mintemp_c']?.toDouble() ?? 0.0,
+      temperaturaMaxima: forecast['maxtemp_c']?.toDouble() ?? 0.0,
+      estadoClima: estadoClima, // Usar el estado del clima extraído
+      horas: horas, // Lista de WeatherHour
+      ciudad: ciudad, // Asignar la ciudad
+    );
+  }
 }
