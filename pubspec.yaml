@@ -83,7 +83,6 @@ flutter:
   - assets/images/fiebre.png
   - assets/images/granizada.png
   - assets/images/granizo.png
-  - assets/images/llovizna.png
   - assets/images/lluvia ligera.png
   - assets/images/lluvia moderada.png
   - assets/images/lluvia-intensa.png
@@ -97,7 +96,6 @@ flutter:
   - assets/images/ojo-abierto.png
   - assets/images/parcialmente-nublado.png
   - assets/images/probabilidad de lluvia.png
-  - assets/images/sol.png
   - assets/images/soleado.png
   - assets/images/tormenta.png
   - assets/images/uv.png

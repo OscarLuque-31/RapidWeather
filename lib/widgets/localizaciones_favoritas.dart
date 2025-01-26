@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rapid_weather/services/bbdd_service.dart';
 import 'package:rapid_weather/utils/app_colors.dart';
 import 'package:rapid_weather/views/localizaciones_favoritas_screen.dart';
 import 'package:rapid_weather/widgets/localizacion_widget.dart';
