@@ -33,7 +33,7 @@ class _DatosScreenState extends State<DatosScreen> {
 
   // Guardar los datos en la base de datos
   Future<void> _saveUserData() async {
-    await DBHelper().insertUser(
+    await DBService().insertUser(
       username: nombreUsuario,
       name: nombre,
       surname: apellidos,
@@ -41,7 +41,7 @@ class _DatosScreenState extends State<DatosScreen> {
     );
 
     // Actualizamos el estado de registro a verdadero
-    await DBHelper().updateRegistrationStatus(true);
+    await DBService().updateRegistrationStatus(true);
 
     // Verificamos si el widget aún está montado antes de intentar navegar
     if (mounted) {

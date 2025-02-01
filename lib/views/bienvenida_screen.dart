@@ -21,7 +21,7 @@ class _BienvenidaScreenState extends State<BienvenidaScreen> {
 
   // Verificar si el usuario ya está registrado
   Future<void> _checkRegistrationStatus() async {
-    bool isRegistered = await DBHelper().isUserRegistered();
+    bool isRegistered = await DBService().isUserRegistered();
     setState(() {
       this.isRegistered = isRegistered;
     });

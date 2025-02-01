@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rapid_weather/models/weather_response.dart';
 import 'package:rapid_weather/utils/app_colors.dart';
 import 'package:rapid_weather/utils/utils.dart';
 import 'package:rapid_weather/widgets/drawer.dart';
@@ -7,7 +8,6 @@ import 'package:rapid_weather/widgets/localizaciones_favoritas.dart';
 import 'package:rapid_weather/widgets/current_weather_big.dart';
 import 'package:rapid_weather/widgets/weather_for_hours.dart';
 import 'package:rapid_weather/services/api_service.dart';
-import 'package:rapid_weather/models/weather.dart';
 import 'package:geolocator/geolocator.dart';
 
 class PrincipalScreen extends StatefulWidget {
@@ -18,7 +18,7 @@ class PrincipalScreen extends StatefulWidget {
 }
 
 class _PrincipalScreenState extends State<PrincipalScreen> {
-  Future<Weather>? _weatherData;
+  Future<WeatherResponse>? weatherData;
   late String fechaActual;
   double latitude = 0.0;
   double longitude = 0.0;
@@ -92,7 +92,7 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
 
       // Cargar los datos del clima
       setState(() {
-        _weatherData = ApiService().fetchWeatherForOneDay(latLongString);
+        weatherData = ApiService().fetchWeatherForOneDay(latLongString);
       });
     } catch (e) {
       if (mounted) {
@@ -104,8 +104,8 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
   }
 
   // Construir el cuerpo de la pantalla
-  Widget _buildBody() {
-    if (_weatherData == null) {
+  Widget buildBody() {
+    if (weatherData == null) {
       return const Center(
         child: Text(
           'Cargando los datos...',
@@ -119,8 +119,8 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
       );
     }
 
-    return FutureBuilder<Weather>(
-      future: _weatherData,
+    return FutureBuilder<WeatherResponse>(
+      future: weatherData,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
@@ -140,14 +140,16 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               NombreCiudadFecha(
-                nombreCiudad: weatherToday.ciudad,
+                nombreCiudad: weatherToday.location.name,
                 fechaActual: fechaActual,
+                mostrarEstrella: false,
               ),
               CurrentWeatherBigWidget(
-                estadoClima: weatherToday.estadoClima,
-                temperatura: weatherToday.temperatura.round(),
+                estadoClima: weatherToday.current.condition.text,
+                temperatura: weatherToday.current.tempC.round(),
               ),
-              WeatherForHours(weatherForHour: weatherToday.horas),
+              WeatherForHoursAndDays(forecastDay: weatherToday.forecast!.forecastday[0], especificaciones: false),
+              // Poner aqui las especificaciones de cada día
               const LocalizacionesFavoritas(),
             ],
           );
@@ -182,9 +184,9 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
         ),
       ),
       drawer: const WidgetDrawer(),
-      body: _buildBody(),
+      body: buildBody(),
       bottomNavigationBar: Container(
-        height: 60,
+        height: 55,
         alignment: Alignment.topCenter,
         color: AppColors.azulOscuroWeather,
         child: Row(
@@ -206,3 +208,4 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
     );
   }
 }
+

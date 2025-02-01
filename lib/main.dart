@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'routes/routes.dart'; 
+import 'package:rapid_weather/utils/app_colors.dart';
+import 'routes/routes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,14 +15,16 @@ class MyApp extends StatelessWidget {
       title: 'Rapid Weather',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: const Color(0xFF090C37),
-        scaffoldBackgroundColor: const Color(0xFF090C37),
+        primaryColor: AppColors.azulOscuroWeather,
+        scaffoldBackgroundColor: AppColors.azulOscuroWeather,
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF090C37),
-          foregroundColor: Colors.white,
+          backgroundColor: AppColors
+              .azulOscuroWeather, 
+          foregroundColor:
+              AppColors.blancoWeather, 
         ),
       ),
-      initialRoute: AppRoutes.bienvenida, 
+      initialRoute: AppRoutes.bienvenida,
       routes: AppRoutes.routes,
     );
   }

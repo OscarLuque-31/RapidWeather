@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rapid_weather/routes/routes.dart';
 import 'package:rapid_weather/utils/app_colors.dart';
 
 class WidgetDrawer extends StatelessWidget {
@@ -34,7 +35,7 @@ class WidgetDrawer extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.of(context).pushNamed('/buscar_ciudad');
+                Navigator.pushNamed(context, AppRoutes.buscarCiudad);
               },
             ),
             ListTile(

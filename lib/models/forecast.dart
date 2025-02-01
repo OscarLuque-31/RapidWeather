@@ -1,17 +1,21 @@
-import 'package:rapid_weather/models/weather.dart';
+import 'package:rapid_weather/models/forecast_day.dart';
 
-class ForeCast {
-  final List<Weather> pronostico; // Lista de Weather (para cada día del pronóstico)
+class Forecast {
+  final List<ForecastDay> forecastday;
 
-  ForeCast({required this.pronostico});
+  Forecast({
+    required this.forecastday,
+  });
 
-  // Método para crear una instancia de ForeCast a partir de un JSON
-  factory ForeCast.fromJson(Map<String, dynamic> json) {
-    var forecastDays = json['forecast']?['forecastday'] as List? ?? [];
-    List<Weather> pronostico = forecastDays.map((forecastJson) {
-      return Weather.fromJson(forecastJson); // Crear Weather por cada día
-    }).toList();
+  factory Forecast.fromJson(Map<String, dynamic> json) {
+    var forecastdayList = json['forecastday'];
+    List<ForecastDay> forecastDays = [];
 
-    return ForeCast(pronostico: pronostico); // Devolver ForeCast
+    if (forecastdayList != null && forecastdayList is List) {
+      forecastDays =
+          forecastdayList.map((i) => ForecastDay.fromJson(i)).toList();
+    }
+
+    return Forecast(forecastday: forecastDays);
   }
 }

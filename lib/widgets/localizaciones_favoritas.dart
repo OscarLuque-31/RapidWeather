@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:rapid_weather/services/api_service.dart';
 import 'package:rapid_weather/utils/app_colors.dart';
 import 'package:rapid_weather/views/localizaciones_favoritas_screen.dart';
 import 'package:rapid_weather/widgets/localizacion_widget.dart';
+import 'package:rapid_weather/services/bbdd_service.dart';
+import 'package:rapid_weather/models/weather_response.dart';
 
 class LocalizacionesFavoritas extends StatefulWidget {
   const LocalizacionesFavoritas({super.key});
 
   @override
-  State<LocalizacionesFavoritas> createState() =>
-      _LocalizacionesFavoritasState();
+  State<LocalizacionesFavoritas> createState() => _LocalizacionesFavoritasState();
 }
 
 class _LocalizacionesFavoritasState extends State<LocalizacionesFavoritas> {
-  // List<Map<String, dynamic>> _favorites = [];
+  List<Map<String, dynamic>> _favoriteCities = [];
+  final Map<String, WeatherResponse> _weatherData = {};
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -21,18 +25,50 @@ class _LocalizacionesFavoritasState extends State<LocalizacionesFavoritas> {
   }
 
   Future<void> _loadFavorites() async {
-    // final data = await DBHelper().fetchFavorites();
-    setState(() {
-      // _favorites = data;
-    });
+    try {
+      final data = await DBService().fetchFavorites();
+      setState(() {
+        _favoriteCities = data;
+      });
+
+      _fetchWeatherData();
+    } catch (e) {
+      debugPrint("Error cargando favoritos: $e");
+    }
+  }
+
+  Future<void> _fetchWeatherData() async {
+    try {
+      for (var city in _favoriteCities) {
+        final latLongString = '${city['latitude']},${city['longitude']}';
+        final weather = await ApiService().fetchWeatherCurrent(latLongString);
+
+        // Verificar si el objeto weather tiene los datos esperados
+        if (weather.forecast!.forecastday.isEmpty) {
+          debugPrint("No se encontraron datos de pronóstico para ${city['city_name']}");
+          continue;
+        }
+
+        setState(() {
+          _weatherData[city['city_name']] = weather;
+        });
+      }
+    } catch (e) {
+      debugPrint("Error obteniendo datos del clima: $e");
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // final limitedFavorites = _favorites.take(4).toList(); // Mostrar solo 4
+    // Limitar la lista de favoritos a los primeros 4 elementos
+    final fourCities = _favoriteCities.take(4).toList();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0), 
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -51,9 +87,7 @@ class _LocalizacionesFavoritasState extends State<LocalizacionesFavoritas> {
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const FavoritasScreen(),
-                    ),
+                    MaterialPageRoute(builder: (context) => const FavoritasScreen()),
                   );
                 },
                 child: const Text(
@@ -69,57 +103,54 @@ class _LocalizacionesFavoritasState extends State<LocalizacionesFavoritas> {
             ],
           ),
           const SizedBox(height: 16.0),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              LocalizacionWidget(ciudad: "Madrid", estadoClima: "Nublado", temperatura: 14),
-              LocalizacionWidget(ciudad: "Barcelona", estadoClima: "Ligeras precipitaciones", temperatura: 17),
-            ],
-          ),
-          const SizedBox(height: 16.0),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              LocalizacionWidget(ciudad: "Valencia", estadoClima: "Lluvia intensa", temperatura: 10),
-              LocalizacionWidget(ciudad: "Sevilla", estadoClima: "Granizo", temperatura: 2),
-            ],
-          ),
 
-          // ...limitedFavorites.map((favorite) => Padding(
-          //       padding: const EdgeInsets.only(bottom: 8.0),
-          //       child: Container(
-          //         padding: const EdgeInsets.all(12.0),
-          //         decoration: BoxDecoration(
-          //           borderRadius: BorderRadius.circular(12.0),
-          //         ),
-          //         child: Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //           children: [
-          //             Text(
-          //               favorite['city_name'],
-          //               style: const TextStyle(
-          //                 color: AppColors.blancoWeather,
-          //                 fontFamily: 'ReadexPro',
-          //                 fontWeight: FontWeight.w400,
-          //                 fontSize: 16,
-          //               ),
-          //             ),
-          //             IconButton(
-          //               icon: const Icon(
-          //                 Icons.delete,
-          //                 color: AppColors.azulClaroWeather,
-          //               ),
-          //               onPressed: () async {
-          //                 await DBHelper().deleteFavorite(favorite['id']);
-          //                 _loadFavorites();
-          //               },
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //     )),
+          if (_isLoading)
+            const Center(
+              child: CircularProgressIndicator(color: AppColors.azulClaroWeather),
+            )
+          else if (fourCities.isNotEmpty) ...[
+            for (int i = 0; i < fourCities.length; i += 2)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildWeatherWidget(fourCities[i]),
+                    if (i + 1 < fourCities.length) _buildWeatherWidget(fourCities[i + 1]),
+                  ],
+                ),
+              ),
+          ] else ...[
+            const Center(
+              child: Padding(
+                padding: EdgeInsets.only(top: 40.0),
+                child: Text(
+                  'No tienes localizaciones favoritas aún',
+                  style: TextStyle(
+                    color: AppColors.azulClaroWeather,
+                    fontFamily: 'ReadexPro',
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ],
       ),
+    );
+  }
+
+  Widget _buildWeatherWidget(Map<String, dynamic> city) {
+    final weather = _weatherData[city['city_name']];
+
+    if (weather == null) {
+      return const SizedBox.shrink();
+    }
+
+    return LocalizacionWidget(
+      ciudad: city['city_name'],
+      estadoClima: weather.current.condition.text,
+      temperatura: weather.current.tempC.round(),
     );
   }
 }
