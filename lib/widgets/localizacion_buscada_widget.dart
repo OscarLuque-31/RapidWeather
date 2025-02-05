@@ -23,7 +23,7 @@ class _LocalizacionBuscadaWidgetState extends State<LocalizacionBuscadaWidget> {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, AppRoutes.climaPronosticoCiudad, arguments: widget.location);
-      }, // Llamar a la función cuando se toque
+      }, 
       child: Card(
         color: AppColors
             .azulGrisaceoWeather, // Fondo oscuro para un buen contraste

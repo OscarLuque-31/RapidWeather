@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:rapid_weather/models/location.dart';
 import 'package:rapid_weather/utils/app_colors.dart';
-import 'package:rapid_weather/services/bbdd_service.dart'; // Asegúrate de importar el servicio que maneja los favoritos
+import 'package:rapid_weather/services/bbdd_service.dart'; // Importamos el servicio de base de datos
 
 class NombreCiudadFecha extends StatefulWidget {
   final String nombreCiudad;
   final String fechaActual;
-  final bool mostrarEstrella; // Cambié el tipo a bool
+  final bool mostrarEstrella;
   final Location? location;
 
   const NombreCiudadFecha({
@@ -14,7 +14,7 @@ class NombreCiudadFecha extends StatefulWidget {
     required this.nombreCiudad,
     required this.fechaActual,
     required this.mostrarEstrella,
-    this.location
+    this.location,
   });
 
   @override
@@ -28,19 +28,42 @@ class _NombreCiudadFecha extends State<NombreCiudadFecha> {
   void initState() {
     super.initState();
     isFavorite = false;
+    _checkIfFavorite(); // Llamamos a la función para comprobar si la ciudad es favorita
   }
 
+  // Función para comprobar si la ciudad está en favoritos
+  Future<void> _checkIfFavorite() async {
+    if (widget.location != null) {
+      bool favorite = await DBService().isCityFavorite(
+        widget.location!.name, 
+        widget.location!.lat, 
+        widget.location!.lon
+      );
+
+      setState(() {
+        isFavorite = favorite; // Actualizamos el estado de la estrella
+      });
+    }
+  }
+
+  // Función para manejar el clic en la estrella y actualizar la base de datos
   Future<void> toggleFavorite() async {
     setState(() {
       isFavorite = !isFavorite; // Cambiar el estado de la estrella
     });
 
     if (isFavorite) {
-      await DBService().insertFavorite(widget.nombreCiudad, widget.location!.lat,
-          widget.location!.lon); 
+      await DBService().insertFavorite(
+        widget.nombreCiudad, 
+        widget.location!.lat, 
+        widget.location!.lon
+      );
     } else {
-      await DBService().deleteFavorite(widget.nombreCiudad, widget.location!.lat,
-          widget.location!.lon);
+      await DBService().deleteFavorite(
+        widget.nombreCiudad, 
+        widget.location!.lat, 
+        widget.location!.lon
+      );
     }
   }
 

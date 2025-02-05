@@ -21,7 +21,7 @@ class EspecificacionesClimaHora extends StatelessWidget {
             color: AppColors.azulClaroWeather, // Texto azul
           ),
         ),
-        const SizedBox(height: 8), // Espaciado entre título y contenedor
+        const SizedBox(height: 10), // Espaciado entre título y contenedor
 
         // CONTENEDOR DE INFORMACIÓN
         Container(

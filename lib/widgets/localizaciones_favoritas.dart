@@ -40,8 +40,7 @@ class _LocalizacionesFavoritasState extends State<LocalizacionesFavoritas> {
   Future<void> _fetchWeatherData() async {
     try {
       for (var city in _favoriteCities) {
-        final latLongString = '${city['latitude']},${city['longitude']}';
-        final weather = await ApiService().fetchWeatherCurrent(latLongString);
+        final weather = await ApiService().fetchWeatherCurrent(city['city_name']);
 
         // Verificar si el objeto weather tiene los datos esperados
         if (weather.forecast!.forecastday.isEmpty) {
@@ -123,7 +122,7 @@ class _LocalizacionesFavoritasState extends State<LocalizacionesFavoritas> {
           ] else ...[
             const Center(
               child: Padding(
-                padding: EdgeInsets.only(top: 40.0),
+                padding: EdgeInsets.only(top: 80.0),
                 child: Text(
                   'No tienes localizaciones favoritas aún',
                   style: TextStyle(
@@ -146,11 +145,17 @@ class _LocalizacionesFavoritasState extends State<LocalizacionesFavoritas> {
     if (weather == null) {
       return const SizedBox.shrink();
     }
-
+    
     return LocalizacionWidget(
       ciudad: city['city_name'],
       estadoClima: weather.current.condition.text,
       temperatura: weather.current.tempC.round(),
+      location: weather.location,
+      tamanyoLetra :14,
+      tamanyoImagen: 40,
+      tamanyoHeight: 80,
+      tamanyoWidth: 170,
+      tamanyoColumnaTexto: 100,
     );
   }
 }

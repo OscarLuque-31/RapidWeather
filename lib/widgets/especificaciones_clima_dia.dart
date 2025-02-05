@@ -21,7 +21,7 @@ class EspecificacionesClimaDia extends StatelessWidget {
             color: AppColors.azulClaroWeather, 
           ),
         ),
-        const SizedBox(height: 8), 
+        const SizedBox(height: 10), 
         Container(
           height: 200,
           width: 350,

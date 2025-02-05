@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:rapid_weather/models/forecast_day.dart';
 import 'package:rapid_weather/models/hour.dart';
+import 'package:rapid_weather/models/weather_response.dart';
 import 'package:rapid_weather/utils/app_colors.dart';
 import 'package:rapid_weather/utils/utils.dart';
 import 'package:rapid_weather/widgets/especificaciones_clima_hora.dart';
 import 'package:rapid_weather/widgets/especificaciones_clima_dia.dart'; // Importa el widget de EspecificacionesClimaDia
 
 class WeatherForHoursAndDays extends StatefulWidget {
-  final ForecastDay forecastDay;
+  final WeatherResponse weatherResponse;
   final bool especificaciones;
+  final bool mostrarPronostico;
 
   const WeatherForHoursAndDays({
     super.key,
-    required this.forecastDay,
+    required this.weatherResponse,
     required this.especificaciones,
+    required this.mostrarPronostico,
   });
 
   @override
@@ -22,30 +25,118 @@ class WeatherForHoursAndDays extends StatefulWidget {
 
 class _WeatherForHoursAndDaysState extends State<WeatherForHoursAndDays> {
   Hour? weatherSeleccionado;
+  ForecastDay? forecastDaySeleccionado;
+  int selectedDayIndex = 0; // Para gestionar qué día está seleccionado
 
   @override
   void initState() {
     super.initState();
     // Por defecto, mostrar la primera hora
-    if (widget.forecastDay.hour.isNotEmpty) {
-      weatherSeleccionado = widget.forecastDay.hour.first;
+    if (widget.weatherResponse.forecast!.forecastday.isNotEmpty) {
+      forecastDaySeleccionado =
+          widget.weatherResponse.forecast!.forecastday[0];
+      if (forecastDaySeleccionado!.hour.isNotEmpty) {
+        weatherSeleccionado = forecastDaySeleccionado!.hour.first;
+      }
     }
+  }
+
+  // Método para cambiar el pronóstico seleccionado
+  void _cambiarPronostico(int index) {
+    setState(() {
+      selectedDayIndex = index;
+      forecastDaySeleccionado =
+          widget.weatherResponse.forecast!.forecastday[index];
+      weatherSeleccionado = forecastDaySeleccionado!.hour.first;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      // Eliminamos SingleChildScrollView
       children: [
-        // Lista horizontal de las horas
+        // Botones de cambio de día
+        if (widget.mostrarPronostico)
+          SizedBox(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                GestureDetector(
+                  onTap: () => _cambiarPronostico(0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: selectedDayIndex == 0
+                          ? AppColors.azulGrisaceoWeather
+                          : Colors.transparent, // Cambia el fondo cuando "Hoy" esté seleccionado
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    padding: const EdgeInsets.all(8.0),
+                    child: const Text(
+                      "Hoy",
+                      style: TextStyle(
+                        fontFamily: 'ReadexPro',
+                        color: AppColors.blancoWeather,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => _cambiarPronostico(1),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: selectedDayIndex == 1
+                          ? AppColors.azulGrisaceoWeather
+                          : Colors.transparent, // Cambia el fondo cuando "Mañana" esté seleccionado
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    padding: const EdgeInsets.all(8.0),
+                    child: const Text(
+                      "Mañana",
+                      style: TextStyle(
+                        fontFamily: 'ReadexPro',
+                        color: AppColors.blancoWeather,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => _cambiarPronostico(2),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: selectedDayIndex == 2
+                          ? AppColors.azulGrisaceoWeather
+                          : Colors.transparent, // Cambia el fondo cuando "PasadoMañana" esté seleccionado
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    padding: const EdgeInsets.all(8.0),
+                    child: const Text(
+                      "Pasado mañana",
+                      style: TextStyle(
+                        fontFamily: 'ReadexPro',
+                        color: AppColors.blancoWeather,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+        // Contenedor para las horas del pronóstico
         Container(
           padding: const EdgeInsets.all(16.0),
           height: 140.0,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: widget.forecastDay.hour.length,
+            itemCount: forecastDaySeleccionado?.hour.length ?? 0,
             itemBuilder: (context, index) {
-              var weatherHour = widget.forecastDay.hour[index];
+              var weatherHour = forecastDaySeleccionado!.hour[index];
 
               return GestureDetector(
                 onTap: widget.especificaciones
@@ -71,8 +162,7 @@ class _WeatherForHoursAndDaysState extends State<WeatherForHoursAndDays> {
                               color: widget.especificaciones &&
                                       weatherSeleccionado == weatherHour
                                   ? AppColors.azulClaroWeather
-                                  : Colors
-                                      .transparent, // Resalta la seleccionada solo si especificaciones es true
+                                  : Colors.transparent, // Resalta la seleccionada solo si especificaciones es true
                               width: 2,
                             ),
                           ),
@@ -118,14 +208,16 @@ class _WeatherForHoursAndDaysState extends State<WeatherForHoursAndDays> {
             },
           ),
         ),
+
         // Muestra siempre EspecificacionesClimaHora con la primera hora seleccionada por defecto
         if (widget.especificaciones && weatherSeleccionado != null)
           EspecificacionesClimaHora(hour: weatherSeleccionado!),
 
         if (widget.especificaciones) const SizedBox(height: 20),
+
         // Especificaciones del clima del día
-        if (widget.especificaciones)
-          EspecificacionesClimaDia(day: widget.forecastDay.day),
+        if (widget.especificaciones && forecastDaySeleccionado != null)
+          EspecificacionesClimaDia(day: forecastDaySeleccionado!.day),
       ],
     );
   }

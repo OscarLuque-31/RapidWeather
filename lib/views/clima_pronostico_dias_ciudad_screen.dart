@@ -9,14 +9,15 @@ import 'package:rapid_weather/widgets/current_weather_big.dart';
 import 'package:rapid_weather/widgets/nombre_ciudad_fecha.dart';
 import 'package:rapid_weather/widgets/weather_for_hours.dart';
 
-class ClimaPronosticoCiudad extends StatefulWidget {
-  const ClimaPronosticoCiudad({super.key});
+class ClimaPronosticoDiasCiudad extends StatefulWidget {
+  const ClimaPronosticoDiasCiudad({super.key});
 
   @override
-  State<ClimaPronosticoCiudad> createState() => _ClimaPronosticoCiudadState();
+  State<ClimaPronosticoDiasCiudad> createState() =>
+      _ClimaPronosticoDiasCiudadState();
 }
 
-class _ClimaPronosticoCiudadState extends State<ClimaPronosticoCiudad> {
+class _ClimaPronosticoDiasCiudadState extends State<ClimaPronosticoDiasCiudad> {
   Future<WeatherResponse>? _weatherData;
   late String fechaActual;
   late Location location;
@@ -27,7 +28,6 @@ class _ClimaPronosticoCiudadState extends State<ClimaPronosticoCiudad> {
     fechaActual = Utils.obtenerFechaActual();
 
     Future.microtask(() {
-
       if (mounted) {
         final args = ModalRoute.of(context)!.settings.arguments as Location;
 
@@ -90,32 +90,32 @@ class _ClimaPronosticoCiudadState extends State<ClimaPronosticoCiudad> {
           return const Center(child: Text('No se pudo obtener el clima.'));
         } else {
           var weatherResponse = snapshot.data!;
-          
-            var weatherCurrent = weatherResponse.current;
+          var weatherCurrent = weatherResponse.current;
 
-            return SingleChildScrollView(
+          return SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  NombreCiudadFecha(
-                    nombreCiudad: location.name,
-                    fechaActual: fechaActual,
-                    mostrarEstrella:
-                        true,
-                    location: location,
-                  ),
-                  CurrentWeatherBigWidget(
-                    estadoClima: weatherCurrent.condition.text,
-                    temperatura: weatherCurrent.tempC.round(),
-                    mostrarPronostico: true,
-                    location: location,
-                  ),
-                  WeatherForHoursAndDays(
-                      weatherResponse: weatherResponse, especificaciones: true, mostrarPronostico: false,),
-                  const SizedBox(height: 30)
-                ],
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              NombreCiudadFecha(
+                nombreCiudad: location.name,
+                fechaActual: fechaActual,
+                mostrarEstrella: true,
+                location: location,
               ),
-            );
+              CurrentWeatherBigWidget(
+                estadoClima: weatherCurrent.condition.text,
+                temperatura: weatherCurrent.tempC.round(),
+                mostrarPronostico: false,
+                location: location,
+              ),
+              WeatherForHoursAndDays(
+                mostrarPronostico: true,
+                especificaciones: true,
+                weatherResponse: weatherResponse,
+              ),
+              const SizedBox(height: 30)
+            ],
+          ));
         }
       },
     );
@@ -150,7 +150,6 @@ class _ClimaPronosticoCiudadState extends State<ClimaPronosticoCiudad> {
           ],
         ),
         backgroundColor: AppColors.azulOscuroWeather,
-        elevation: 0,
       ),
       body: buildBody(),
     );

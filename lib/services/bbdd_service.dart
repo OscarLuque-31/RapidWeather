@@ -21,7 +21,7 @@ class DBService {
     final dbPath = await getDatabasesPath();
     return openDatabase(
       join(dbPath, 'app_data.db'),
-      version: 2,
+      version: 1,
       onCreate: (db, version) {
         db.execute('''
           CREATE TABLE user (
@@ -42,11 +42,6 @@ class DBService {
             longitude REAL NOT NULL
           )
         ''');
-      },
-      onUpgrade: (db, oldVersion, newVersion) async {
-        if (oldVersion < 2) {
-          // Si es necesario, agregar más migraciones aquí
-        }
       },
     );
   }
@@ -100,14 +95,15 @@ class DBService {
   }
 
   // Métodos para la tabla "favorite_locations"
+  // Método modificado para evitar duplicados
   Future<int> insertFavorite(String cityName, double lat, double lon) async {
-    print('Insertando ciudad: $cityName con lat: $lat y lon: $lon');
-
     final db = await database;
+
+    // Guardar valores redondeados a 2 decimales
     return await db.insert('favorite_locations', {
       'city_name': cityName,
-      'latitude': lat,
-      'longitude': lon,
+      'latitude': double.parse(lat.toStringAsFixed(2)),
+      'longitude': double.parse(lon.toStringAsFixed(2)),
     });
   }
 
@@ -118,10 +114,16 @@ class DBService {
 
   Future<void> deleteFavorite(String cityName, double lat, double lon) async {
     final db = await database;
+
+    // Redondeamos antes de eliminar
+    double roundedLat = double.parse(lat.toStringAsFixed(2));
+    double roundedLon = double.parse(lon.toStringAsFixed(2));
+
     await db.delete(
       'favorite_locations',
-      where: 'city_name = ? AND latitude = ? AND longitude = ?',
-      whereArgs: [cityName, lat, lon],
+      where:
+          'city_name = ? AND ROUND(latitude, 2) = ? AND ROUND(longitude, 2) = ?',
+      whereArgs: [cityName, roundedLat, roundedLon],
     );
   }
 
@@ -134,11 +136,18 @@ class DBService {
 
   Future<bool> isCityFavorite(String cityName, double lat, double lon) async {
     final db = await database;
+
+    // Redondear lat y lon a 2 decimales
+    double roundedLat = double.parse(lat.toStringAsFixed(2));
+    double roundedLon = double.parse(lon.toStringAsFixed(2));
+
     final List<Map<String, dynamic>> result = await db.query(
       'favorite_locations',
-      where: 'city_name = ? AND latitude = ? AND longitude = ?',
-      whereArgs: [cityName, lat, lon],
+      where:
+          'city_name = ? AND ROUND(latitude, 2) = ? AND ROUND(longitude, 2) = ?',
+      whereArgs: [cityName, roundedLat, roundedLon],
     );
+
     return result.isNotEmpty;
   }
 }

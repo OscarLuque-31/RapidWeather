@@ -27,19 +27,13 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
   void initState() {
     super.initState();
     fechaActual = Utils.obtenerFechaActual();
-    checkAndRequestPermission(); // Llamar a checkAndRequestPermission() para solicitar permisos
+    checkAndRequestPermission();
   }
 
-  // Verificar y solicitar permisos para obtener la ubicación
   Future<void> checkAndRequestPermission() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    // Verificar si los servicios de ubicación están habilitados
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       if (mounted) {
-        // Si los servicios están deshabilitados, mostrar mensaje al usuario
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
               content:
@@ -49,14 +43,11 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
       return;
     }
 
-    // Verificar los permisos de ubicación
-    permission = await Geolocator.checkPermission();
+    LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
-      // Si el permiso es denegado, solicitarlo
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         if (mounted) {
-          // Si el permiso sigue siendo denegado, mostrar mensaje al usuario
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Permiso de ubicación denegado.')),
           );
@@ -65,21 +56,17 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
       }
     }
 
-    // Continuar con la obtención de la ubicación si se tienen los permisos
     _initializeWeatherData();
   }
 
-  // Inicializar la obtención de ubicación y clima
   Future<void> _initializeWeatherData() async {
     try {
-      // Intentar obtener la última ubicación conocida
       Position? lastKnownPosition = await Geolocator.getLastKnownPosition();
 
       if (lastKnownPosition != null) {
         latitude = lastKnownPosition.latitude;
         longitude = lastKnownPosition.longitude;
       } else {
-        // Si no hay última ubicación conocida, obtener una nueva
         Position currentPosition = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.medium,
         );
@@ -87,12 +74,10 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
         longitude = currentPosition.longitude;
       }
 
-      // Construir la cadena de latitud y longitud
       String latLongString = '$latitude, $longitude';
 
-      // Cargar los datos del clima
       setState(() {
-        weatherData = ApiService().fetchWeatherForOneDay(latLongString);
+        weatherData = ApiService().fetchWeatherForThreeDays(latLongString);
       });
     } catch (e) {
       if (mounted) {
@@ -103,7 +88,6 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
     }
   }
 
-  // Construir el cuerpo de la pantalla
   Widget buildBody() {
     if (weatherData == null) {
       return const Center(
@@ -131,27 +115,44 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
             ),
           );
         } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
+          return Center(
+              child: Text(
+            'Error: ${snapshot.error}',
+            style: const TextStyle(
+              color: AppColors.azulClaroWeather,
+              fontFamily: 'ReadexPro',
+              fontWeight: FontWeight.w500,
+              fontSize: 18,
+            ),
+          ));
         } else if (!snapshot.hasData) {
           return const Center(child: Text('No se pudo obtener el clima.'));
         } else {
           var weatherToday = snapshot.data!;
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              NombreCiudadFecha(
-                nombreCiudad: weatherToday.location.name,
-                fechaActual: fechaActual,
-                mostrarEstrella: false,
-              ),
-              CurrentWeatherBigWidget(
-                estadoClima: weatherToday.current.condition.text,
-                temperatura: weatherToday.current.tempC.round(),
-              ),
-              WeatherForHoursAndDays(forecastDay: weatherToday.forecast!.forecastday[0], especificaciones: false),
-              // Poner aqui las especificaciones de cada día
-              const LocalizacionesFavoritas(),
-            ],
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                NombreCiudadFecha(
+                  nombreCiudad: weatherToday.location.name,
+                  fechaActual: fechaActual,
+                  mostrarEstrella: false,
+                ),
+                CurrentWeatherBigWidget(
+                  estadoClima: weatherToday.current.condition.text,
+                  temperatura: weatherToday.current.tempC.round(),
+                  mostrarPronostico: true,
+                  location: weatherToday.location,
+                ),
+                WeatherForHoursAndDays(
+                  weatherResponse: weatherToday,
+                  mostrarPronostico: false,
+                  especificaciones: false,
+                ),
+                const LocalizacionesFavoritas(),
+                const SizedBox(height: 20), // Espaciado final
+              ],
+            ),
           );
         }
       },
@@ -185,27 +186,6 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
       ),
       drawer: const WidgetDrawer(),
       body: buildBody(),
-      bottomNavigationBar: Container(
-        height: 55,
-        alignment: Alignment.topCenter,
-        color: AppColors.azulOscuroWeather,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.person_outline_sharp,
-                  size: 27, color: AppColors.blancoWeather),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.settings_outlined,
-                  size: 25, color: AppColors.blancoWeather),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
-
