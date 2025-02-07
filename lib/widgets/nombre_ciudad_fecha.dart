@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rapid_weather/models/location.dart';
 import 'package:rapid_weather/utils/app_colors.dart';
-import 'package:rapid_weather/services/bbdd_service.dart'; // Importamos el servicio de base de datos
+import 'package:rapid_weather/services/bbdd_service.dart';
 
 class NombreCiudadFecha extends StatefulWidget {
   final String nombreCiudad;
@@ -28,7 +28,7 @@ class _NombreCiudadFecha extends State<NombreCiudadFecha> {
   void initState() {
     super.initState();
     isFavorite = false;
-    _checkIfFavorite(); // Llamamos a la función para comprobar si la ciudad es favorita
+    _checkIfFavorite(); 
   }
 
   // Función para comprobar si la ciudad está en favoritos
@@ -41,7 +41,7 @@ class _NombreCiudadFecha extends State<NombreCiudadFecha> {
       );
 
       setState(() {
-        isFavorite = favorite; // Actualizamos el estado de la estrella
+        isFavorite = favorite; 
       });
     }
   }
@@ -49,7 +49,7 @@ class _NombreCiudadFecha extends State<NombreCiudadFecha> {
   // Función para manejar el clic en la estrella y actualizar la base de datos
   Future<void> toggleFavorite() async {
     setState(() {
-      isFavorite = !isFavorite; // Cambiar el estado de la estrella
+      isFavorite = !isFavorite; 
     });
 
     if (isFavorite) {
@@ -70,23 +70,21 @@ class _NombreCiudadFecha extends State<NombreCiudadFecha> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 370, // Asegúrate de que el contenedor tenga un ancho definido
+      width: 370, 
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          // 📌 Agregamos margen a la izquierda del texto
           Padding(
             padding: const EdgeInsets.only(left: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                // Ajustamos el texto para que ocupe solo 2 líneas como máximo
                 SizedBox(
-                  width: 250, // Ajustamos un tamaño fijo para que el texto se ajuste
+                  width: 250,
                   child: Text(
                     widget.nombreCiudad,
-                    overflow: TextOverflow.ellipsis, // Agrega elipsis si el texto es muy largo
-                    maxLines: 2, // Máximo de 2 líneas
+                    overflow: TextOverflow.ellipsis, 
+                    maxLines: 2, 
                     style: const TextStyle(
                       fontFamily: 'ReadexPro',
                       fontWeight: FontWeight.w300,

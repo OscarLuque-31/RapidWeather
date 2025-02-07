@@ -27,7 +27,6 @@ class _ClimaPronosticoCiudadState extends State<ClimaPronosticoCiudad> {
     fechaActual = Utils.obtenerFechaActual();
 
     Future.microtask(() {
-
       if (mounted) {
         final args = ModalRoute.of(context)!.settings.arguments as Location;
 
@@ -41,7 +40,7 @@ class _ClimaPronosticoCiudadState extends State<ClimaPronosticoCiudad> {
     });
   }
 
-  // Inicializar la obtención de ubicación y clima
+  // Método que inicializa la obtención de ubicación y clima
   Future<void> initializeWeatherData() async {
     try {
       String latLongString = '${location.lat}, ${location.lon}';
@@ -57,7 +56,7 @@ class _ClimaPronosticoCiudadState extends State<ClimaPronosticoCiudad> {
     }
   }
 
-  // Construir el cuerpo de la pantalla
+  // Método que construye el cuerpo de la pantalla
   Widget buildBody() {
     if (_weatherData == null) {
       return const Center(

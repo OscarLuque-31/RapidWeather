@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rapid_weather/utils/app_colors.dart';
-import 'routes/routes.dart';
+import 'package:rapid_weather/routes/routes.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -18,10 +17,8 @@ class MyApp extends StatelessWidget {
         primaryColor: AppColors.azulOscuroWeather,
         scaffoldBackgroundColor: AppColors.azulOscuroWeather,
         appBarTheme: const AppBarTheme(
-          backgroundColor: AppColors
-              .azulOscuroWeather, 
-          foregroundColor:
-              AppColors.blancoWeather, 
+          backgroundColor: AppColors.azulOscuroWeather,
+          foregroundColor: AppColors.blancoWeather,
         ),
       ),
       initialRoute: AppRoutes.bienvenida,

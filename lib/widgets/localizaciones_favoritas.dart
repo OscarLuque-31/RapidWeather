@@ -24,6 +24,7 @@ class _LocalizacionesFavoritasState extends State<LocalizacionesFavoritas> {
     _loadFavorites();
   }
 
+  // Método que carga las localizaciones favoritas desde base de datos
   Future<void> _loadFavorites() async {
     try {
       final data = await DBService().fetchFavorites();
@@ -37,6 +38,7 @@ class _LocalizacionesFavoritasState extends State<LocalizacionesFavoritas> {
     }
   }
 
+  // Método que llama a la API con las localizaciones favoritas
   Future<void> _fetchWeatherData() async {
     try {
       for (var city in _favoriteCities) {
@@ -139,6 +141,7 @@ class _LocalizacionesFavoritasState extends State<LocalizacionesFavoritas> {
     );
   }
 
+  // Widget para construir el contenedor del clima
   Widget _buildWeatherWidget(Map<String, dynamic> city) {
     final weather = _weatherData[city['city_name']];
 

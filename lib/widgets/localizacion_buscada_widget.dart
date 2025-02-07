@@ -26,7 +26,7 @@ class _LocalizacionBuscadaWidgetState extends State<LocalizacionBuscadaWidget> {
       }, 
       child: Card(
         color: AppColors
-            .azulGrisaceoWeather, // Fondo oscuro para un buen contraste
+            .azulGrisaceoWeather, 
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),

@@ -35,7 +35,7 @@ class WidgetDrawer extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.pushNamed(context, AppRoutes.buscarCiudad);
+                Navigator.pushReplacementNamed(context, AppRoutes.buscarCiudad);
               },
             ),
             ListTile(
@@ -51,7 +51,7 @@ class WidgetDrawer extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.of(context).pushNamed('/condiciones_clima');
+                Navigator.pushReplacementNamed(context, AppRoutes.condicionesClima);
               },
             ),
             const Spacer(),
@@ -68,7 +68,7 @@ class WidgetDrawer extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.of(context).pushNamed('/atribuciones');
+                Navigator.pushReplacementNamed(context, AppRoutes.atribuciones);
               },
             ),
           ],

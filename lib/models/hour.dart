@@ -1,5 +1,6 @@
 import 'package:rapid_weather/models/condition.dart';
 
+/// Clase Hour que representa la hora de un día
 class Hour {
   final String time;
   final double tempC;
@@ -37,6 +38,8 @@ class Hour {
     required this.uv,
   });
 
+
+  // Método para transformar el JSON a un objeto Hour y lo retorna
   factory Hour.fromJson(Map<String, dynamic> json) {
     return Hour(
       time: json['time'] ?? '',
@@ -57,4 +60,6 @@ class Hour {
       uv: json['uv']?.toDouble() ?? 0.0,
     );
   }
+
+  
 }

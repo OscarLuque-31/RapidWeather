@@ -15,10 +15,10 @@ class BarraBuscar extends StatelessWidget {
       width: 350,
       child: TextField(
         controller: searchController,
-        onSubmitted: onSearch, // Llama a la función pasada al presionar Enter
+        onSubmitted: onSearch, 
         decoration: InputDecoration(
           filled: true,
-          fillColor: AppColors.azulOscuroWeather, // Color de fondo (oscuro).
+          fillColor: AppColors.azulOscuroWeather, 
           hintText: 'Buscar una ciudad',
           hintStyle: const TextStyle(color: Colors.white70),
           prefixIcon: IconButton(
@@ -29,8 +29,8 @@ class BarraBuscar extends StatelessWidget {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30.0),
             borderSide: const BorderSide(
-              color: AppColors.azulGrisaceoWeather, // Color del borde.
-              width: 2, // Ancho del borde.
+              color: AppColors.azulGrisaceoWeather,
+              width: 2,
             ),
           ),
           enabledBorder: OutlineInputBorder(

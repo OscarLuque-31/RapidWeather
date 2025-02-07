@@ -47,12 +47,12 @@ class _CustomDatePickerTextFieldState extends State<CustomDatePickerTextField> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _selectDate(context), // Mostrar el DatePicker al tocar el campo
+      onTap: () => _selectDate(context), 
       child: SizedBox(
         width: widget.width,
         height: widget.height,
         child: TextField(
-          enabled: false, // Evita la edición manual
+          enabled: false,
           style: const TextStyle(
             fontFamily: 'ReadexPro',
             fontWeight: FontWeight.w500,
@@ -62,7 +62,7 @@ class _CustomDatePickerTextFieldState extends State<CustomDatePickerTextField> {
           decoration: InputDecoration(
             filled: true,
             fillColor: AppColors.blancoWeather,
-            hintText: _selectedDate ?? widget.hintText, // Muestra la fecha seleccionada o el placeholder
+            hintText: _selectedDate ?? widget.hintText, 
             hintStyle: const TextStyle(
               fontFamily: 'ReadexPro',
               fontWeight: FontWeight.w500,

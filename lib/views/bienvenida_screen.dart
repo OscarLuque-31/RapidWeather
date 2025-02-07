@@ -3,6 +3,8 @@ import 'package:rapid_weather/routes/routes.dart';
 import 'package:rapid_weather/services/bbdd_service.dart';
 import 'package:rapid_weather/utils/app_colors.dart';
 
+/// Pantalla de bienvenida que verifica si el usuario está registrado y 
+/// lo redirige a la pantalla principal o le permite registrarse.
 class BienvenidaScreen extends StatefulWidget {
   const BienvenidaScreen({super.key});
 
@@ -11,15 +13,16 @@ class BienvenidaScreen extends StatefulWidget {
 }
 
 class _BienvenidaScreenState extends State<BienvenidaScreen> {
-  bool isRegistered = false;
+  bool isRegistered = false; // Estado para almacenar si el usuario está registrado
 
   @override
   void initState() {
     super.initState();
-    _checkRegistrationStatus();
+    _checkRegistrationStatus(); // Verifica el estado de registro al iniciar la pantalla
   }
 
-  // Verificar si el usuario ya está registrado
+  /// Verifica si el usuario ya está registrado en la base de datos.
+  /// Si está registrado, lo redirige automáticamente a la pantalla principal.
   Future<void> _checkRegistrationStatus() async {
     bool isRegistered = await DBService().isUserRegistered();
     setState(() {
@@ -28,12 +31,8 @@ class _BienvenidaScreenState extends State<BienvenidaScreen> {
 
     if (isRegistered) {
       if (mounted) {
-        // Si está registrado, redirigimos directamente a la pantalla principal y limpiamos el stack
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          AppRoutes.principal,  
-          (Route<dynamic> route) => false, // Esto elimina todas las pantallas anteriores
-        );
+        // Si está registrado, redirige directamente a la pantalla principal y limpia el historial de navegación
+        Navigator.pushReplacementNamed(context, AppRoutes.principal);
       }
     }
   }
@@ -43,6 +42,7 @@ class _BienvenidaScreenState extends State<BienvenidaScreen> {
     return Scaffold(
       body: Column(
         children: [
+          // Logo centrado en la pantalla
           Expanded(
             child: Center(
               child: Image.asset(
@@ -52,19 +52,20 @@ class _BienvenidaScreenState extends State<BienvenidaScreen> {
             ),
           ),
 
-          // Contenedor inferior con bordes redondeados
+          // Contenedor inferior con mensaje y botón de inicio
           Container(
             margin: const EdgeInsets.only(bottom: 16.0), 
             width: 360,
             height: 180,
             padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
-              color: AppColors.azulGrisaceoWeather, // Fondo azul oscuro
-              borderRadius: BorderRadius.circular(16.0), // Bordes redondeados
+              color: AppColors.azulGrisaceoWeather, 
+              borderRadius: BorderRadius.circular(16.0), 
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // Mensaje de bienvenida
                 const Text(
                   "Conecta con tu clima, sin complicaciones",
                   style: TextStyle(
@@ -76,16 +77,16 @@ class _BienvenidaScreenState extends State<BienvenidaScreen> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 35.0),
+
+                // Botón de "Empezar"
                 ElevatedButton(
                   onPressed: () {
                     if (!isRegistered) {
+                      // Si no está registrado, lo lleva a la pantalla de datos
                       Navigator.pushNamed(context, AppRoutes.datos);
                     } else {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        AppRoutes.principal,
-                        (Route<dynamic> route) => false, // Elimina todas las rutas previas
-                      );
+                      // Si ya está registrado, lo redirige a la pantalla principal
+                      Navigator.pushReplacementNamed(context, AppRoutes.principal);
                     }
                   },
                   style: ElevatedButton.styleFrom(

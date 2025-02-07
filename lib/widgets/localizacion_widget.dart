@@ -51,9 +51,8 @@ class _LocalizacionWidgetState extends State<LocalizacionWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Columna para el texto (temperatura y ciudad)
             SizedBox(
-              width: widget.tamanyoColumnaTexto, // Ancho fijo para la columna de texto
+              width: widget.tamanyoColumnaTexto, 
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,8 +71,8 @@ class _LocalizacionWidgetState extends State<LocalizacionWidget> {
                   // Ciudad
                   Text(
                     widget.ciudad,
-                    overflow: TextOverflow.ellipsis, // Puntos suspensivos si el texto es largo
-                    maxLines: 1, // Solo una línea de texto
+                    overflow: TextOverflow.ellipsis, 
+                    maxLines: 1,
                     style: TextStyle(
                       fontFamily: 'ReadexPro',
                       fontWeight: FontWeight.w500,
@@ -84,7 +83,6 @@ class _LocalizacionWidgetState extends State<LocalizacionWidget> {
                 ],
               ),
             ),
-            // Imagen del clima
             Image.asset(
               Utils.determinarClima(widget.estadoClima),
               width: widget.tamanyoImagen,

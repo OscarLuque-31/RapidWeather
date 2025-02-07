@@ -18,18 +18,18 @@ class EspecificacionesClimaHora extends StatelessWidget {
             fontFamily: 'ReadexPro',
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: AppColors.azulClaroWeather, // Texto azul
+            color: AppColors.azulClaroWeather, 
           ),
         ),
-        const SizedBox(height: 10), // Espaciado entre título y contenedor
+        const SizedBox(height: 10), 
 
-        // CONTENEDOR DE INFORMACIÓN
+ 
         Container(
           height: 200,
           width: 350,
           padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: AppColors.azulGrisaceoWeather, // Fondo azul grisáceo
+            color: AppColors.azulGrisaceoWeather,
             borderRadius: BorderRadius.circular(20.0),
           ),
           child: Row(

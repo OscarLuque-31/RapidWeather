@@ -1,3 +1,4 @@
+/// Clase Location que representa la localización de donde se obtiene el clima
 class Location {
   final String name;
   final String region;
@@ -17,6 +18,7 @@ class Location {
     required this.localtime,
   });
 
+  // Método para transformar el JSON a un objeto Location y lo retorna
   factory Location.fromJson(Map<String, dynamic> json) {
     return Location(
       name: json['name'] ?? '',
@@ -33,4 +35,6 @@ class Location {
   static List<Location> listFromJson(List<dynamic> list) {
     return list.map((item) => Location.fromJson(item)).toList();
   }
+
+
 }

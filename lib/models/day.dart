@@ -1,5 +1,6 @@
 import 'package:rapid_weather/models/condition.dart';
 
+/// Clase Day que representa un día
 class Day {
   final double maxtempC;
   final double mintempC;
@@ -27,6 +28,7 @@ class Day {
     required this.uv,
   });
 
+  // Método para transformar el JSON a un objeto Day y lo retorna
   factory Day.fromJson(Map<String, dynamic> json) {
     return Day(
       maxtempC: json['maxtemp_c']?.toDouble() ?? 0.0,

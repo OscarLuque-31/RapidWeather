@@ -42,15 +42,14 @@ class _CurrentWeatherBigWidget extends State<CurrentWeatherBigWidget> {
             color: AppColors.blancoWeather,
           ),
         ),
-        // Contenedor del botón con fondo rojo
 
         if (widget.mostrarPronostico)
         Container(
           height: 38,
-          width: double.infinity, // Ocupa todo el ancho disponible
-          padding: const EdgeInsets.symmetric(horizontal: 17), // Espaciado
+          width: double.infinity, 
+          padding: const EdgeInsets.symmetric(horizontal: 17), 
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start, // Alinea el botón a la izquierda
+            mainAxisAlignment: MainAxisAlignment.start, 
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Icon(Icons.date_range_rounded, color: AppColors.azulClaroWeather, size: 25),

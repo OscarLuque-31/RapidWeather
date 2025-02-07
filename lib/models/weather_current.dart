@@ -1,5 +1,6 @@
 import 'package:rapid_weather/models/condition.dart';
 
+/// Clase Current que representa el clima en estos momentos
 class Current {
   final String lastUpdated;
   final double tempC;
@@ -35,6 +36,7 @@ class Current {
     required this.gustKph,
   });
 
+  // Método para transformar el JSON a un objeto Current y lo retorna
   factory Current.fromJson(Map<String, dynamic> json) {
     return Current(
       lastUpdated: json['last_updated'] ?? '',
@@ -54,4 +56,6 @@ class Current {
       gustKph: json['gust_kph']?.toDouble() ?? 0.0,
     );
   }
+
+  
 }

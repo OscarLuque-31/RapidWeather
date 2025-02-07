@@ -5,7 +5,7 @@ import 'package:rapid_weather/models/weather_response.dart';
 import 'package:rapid_weather/utils/app_colors.dart';
 import 'package:rapid_weather/utils/utils.dart';
 import 'package:rapid_weather/widgets/especificaciones_clima_hora.dart';
-import 'package:rapid_weather/widgets/especificaciones_clima_dia.dart'; // Importa el widget de EspecificacionesClimaDia
+import 'package:rapid_weather/widgets/especificaciones_clima_dia.dart';
 
 class WeatherForHoursAndDays extends StatefulWidget {
   final WeatherResponse weatherResponse;
@@ -26,12 +26,12 @@ class WeatherForHoursAndDays extends StatefulWidget {
 class _WeatherForHoursAndDaysState extends State<WeatherForHoursAndDays> {
   Hour? weatherSeleccionado;
   ForecastDay? forecastDaySeleccionado;
-  int selectedDayIndex = 0; // Para gestionar qué día está seleccionado
+  int selectedDayIndex = 0; 
 
   @override
   void initState() {
     super.initState();
-    // Por defecto, mostrar la primera hora
+    // Por defecto, muestra la primera hora
     if (widget.weatherResponse.forecast!.forecastday.isNotEmpty) {
       forecastDaySeleccionado =
           widget.weatherResponse.forecast!.forecastday[0];
@@ -55,7 +55,6 @@ class _WeatherForHoursAndDaysState extends State<WeatherForHoursAndDays> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Botones de cambio de día
         if (widget.mostrarPronostico)
           SizedBox(
             child: Row(
@@ -67,7 +66,7 @@ class _WeatherForHoursAndDaysState extends State<WeatherForHoursAndDays> {
                     decoration: BoxDecoration(
                       color: selectedDayIndex == 0
                           ? AppColors.azulGrisaceoWeather
-                          : Colors.transparent, // Cambia el fondo cuando "Hoy" esté seleccionado
+                          : Colors.transparent, 
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     padding: const EdgeInsets.all(8.0),
@@ -88,7 +87,7 @@ class _WeatherForHoursAndDaysState extends State<WeatherForHoursAndDays> {
                     decoration: BoxDecoration(
                       color: selectedDayIndex == 1
                           ? AppColors.azulGrisaceoWeather
-                          : Colors.transparent, // Cambia el fondo cuando "Mañana" esté seleccionado
+                          : Colors.transparent,
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     padding: const EdgeInsets.all(8.0),
@@ -109,7 +108,7 @@ class _WeatherForHoursAndDaysState extends State<WeatherForHoursAndDays> {
                     decoration: BoxDecoration(
                       color: selectedDayIndex == 2
                           ? AppColors.azulGrisaceoWeather
-                          : Colors.transparent, // Cambia el fondo cuando "PasadoMañana" esté seleccionado
+                          : Colors.transparent, 
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     padding: const EdgeInsets.all(8.0),
@@ -162,7 +161,7 @@ class _WeatherForHoursAndDaysState extends State<WeatherForHoursAndDays> {
                               color: widget.especificaciones &&
                                       weatherSeleccionado == weatherHour
                                   ? AppColors.azulClaroWeather
-                                  : Colors.transparent, // Resalta la seleccionada solo si especificaciones es true
+                                  : Colors.transparent,
                               width: 2,
                             ),
                           ),

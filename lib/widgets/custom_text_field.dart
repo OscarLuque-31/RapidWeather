@@ -21,7 +21,7 @@ class CustomTextField extends StatelessWidget {
       width: width,
       height: height,
       child: TextField(
-        onChanged: onChanged, // Llama al callback cuando el texto cambia
+        onChanged: onChanged, 
         style: const TextStyle(
           fontFamily: 'ReadexPro',
           fontWeight: FontWeight.w500,

@@ -41,7 +41,7 @@ class _ClimaPronosticoDiasCiudadState extends State<ClimaPronosticoDiasCiudad> {
     });
   }
 
-  // Inicializar la obtención de ubicación y clima
+  // Método que inicializa la obtención de ubicación y clima
   Future<void> initializeWeatherData() async {
     try {
       String latLongString = '${location.lat}, ${location.lon}';
@@ -57,7 +57,7 @@ class _ClimaPronosticoDiasCiudadState extends State<ClimaPronosticoDiasCiudad> {
     }
   }
 
-  // Construir el cuerpo de la pantalla
+  // Método que construye el cuerpo de la pantalla
   Widget buildBody() {
     if (_weatherData == null) {
       return const Center(

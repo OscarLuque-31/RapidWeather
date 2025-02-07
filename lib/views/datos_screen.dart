@@ -23,7 +23,7 @@ class _DatosScreenState extends State<DatosScreen> {
     super.initState();
   }
 
-  // Verificar si los datos están completos
+  // Método que verifica si los datos están completos
   bool _areFieldsComplete() {
     return nombreUsuario.isNotEmpty &&
         nombre.isNotEmpty &&
@@ -31,7 +31,7 @@ class _DatosScreenState extends State<DatosScreen> {
         fechaNacimiento.isNotEmpty;
   }
 
-  // Guardar los datos en la base de datos
+  // Guarda los datos en la base de datos
   Future<void> _saveUserData() async {
     await DBService().insertUser(
       username: nombreUsuario,
@@ -50,7 +50,7 @@ class _DatosScreenState extends State<DatosScreen> {
     }
   }
 
-  // Guardar los datos y navegar a la pantalla principal
+  // Guarda los datos y navega a la pantalla principal
   Future<void> saveUserAndNavigate() async {
   // Guardamos los datos en la base de datos
   await _saveUserData();
@@ -65,7 +65,7 @@ class _DatosScreenState extends State<DatosScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset:
-          true, // Permite que el contenido se desplace cuando se muestre el teclado
+          true,
       body: SingleChildScrollView(
         child: Column(
           children: [

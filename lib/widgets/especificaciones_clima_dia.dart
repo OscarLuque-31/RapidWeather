@@ -27,7 +27,7 @@ class EspecificacionesClimaDia extends StatelessWidget {
           width: 350,
           padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: AppColors.azulGrisaceoWeather, // Fondo azul grisáceo
+            color: AppColors.azulGrisaceoWeather,
             borderRadius: BorderRadius.circular(20.0),
           ),
           child: Row(
